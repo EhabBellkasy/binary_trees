@@ -8,11 +8,11 @@
  */
 int count_heap_nodes(binary_tree_t *root)
 {
-if (!root)
-return (0);
+	if (!root)
+		return (0);
 
-return (1 + count_heap_nodes(root->left) +
-    count_heap_nodes(root->right));
+	return (1 + count_heap_nodes(root->left) +
+		    count_heap_nodes(root->right));
 }
 
 
@@ -22,28 +22,28 @@ return (1 + count_heap_nodes(root->left) +
  */
 void bubble_down(heap_t *parent)
 {
-int temp;
-heap_t *max_child = NULL;
+	int temp;
+	heap_t *max_child = NULL;
 
-if (!parent)
-return;
+	if (!parent)
+		return;
 
-while (parent && parent->left)
-{
-max_child = parent->left;
+	while (parent && parent->left)
+	{
+		max_child = parent->left;
 
-if (parent->right && parent->right->n > parent->left->n)
-max_child = parent->right;
+		if (parent->right && parent->right->n > parent->left->n)
+			max_child = parent->right;
 
-if (max_child->n > parent->n)
-{
-temp = parent->n;
-parent->n = max_child->n;
-max_child->n = temp;
-}
+		if (max_child->n > parent->n)
+		{
+			temp = parent->n;
+			parent->n = max_child->n;
+			max_child->n = temp;
+		}
 
-parent = max_child;
-}
+		parent = max_child;
+	}
 }
 
 
@@ -57,23 +57,23 @@ parent = max_child;
  */
 heap_t *get_parent(heap_t *root, int index, int pind)
 {
-heap_t *left = NULL, *right = NULL;
+	heap_t *left = NULL, *right = NULL;
 
-if (!root || index > pind)
-return (NULL);
+	if (!root || index > pind)
+		return (NULL);
 
-if (index == pind)
-return (root);
+	if (index == pind)
+		return (root);
 
-left = get_parent(root->left, index * 2 + 1, pind);
-if (left)
-return (left);
+	left = get_parent(root->left, index * 2 + 1, pind);
+	if (left)
+		return (left);
 
-right = get_parent(root->right, index * 2 + 2, pind);
-if (right)
-return (right);
+	right = get_parent(root->right, index * 2 + 2, pind);
+	if (right)
+		return (right);
 
-return (NULL);
+	return (NULL);
 }
 
 
@@ -84,28 +84,28 @@ return (NULL);
  */
 void remove_last_node(heap_t **root, heap_t *parent)
 {
-if (parent == *root && !parent->left)
-{
-free(*root);
-*root = NULL;
+	if (parent == *root && !parent->left)
+	{
+		free(*root);
+		*root = NULL;
 
-return;
-}
+		return;
+	}
 
-if (parent->right)
-{
-(*root)->n = parent->right->n;
-free(parent->right);
-parent->right = NULL;
-}
-else if (parent->left)
-{
-(*root)->n = parent->left->n;
-free(parent->left);
-parent->left = NULL;
-}
+	if (parent->right)
+	{
+		(*root)->n = parent->right->n;
+		free(parent->right);
+		parent->right = NULL;
+	}
+	else if (parent->left)
+	{
+		(*root)->n = parent->left->n;
+		free(parent->left);
+		parent->left = NULL;
+	}
 
-bubble_down(*root);
+	bubble_down(*root);
 }
 
 
@@ -117,19 +117,19 @@ bubble_down(*root);
  */
 int heap_extract(heap_t **root)
 {
-int nodes, pind = 0, max_val = 0;
-heap_t *parent;
+	int nodes, pind = 0, max_val = 0;
+	heap_t *parent;
 
-if (!root || !(*root))
-return (0);
+	if (!root || !(*root))
+		return (0);
 
-max_val = (*root)->n;
-nodes = count_heap_nodes(*root);
+	max_val = (*root)->n;
+	nodes = count_heap_nodes(*root);
 
-pind = (nodes - 2) / 2;
-parent = get_parent(*root, 0, pind);
+	pind = (nodes - 2) / 2;
+	parent = get_parent(*root, 0, pind);
 
-remove_last_node(root, parent);
+	remove_last_node(root, parent);
 
-return (max_val);
+	return (max_val);
 }
