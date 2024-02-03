@@ -1,9 +1,8 @@
 #include "binary_trees.h"
-
 /**
  * binary_tree_leaves - function that returns the number of leaves in a tree
  * @tree: tree to check
- * Return: return 1 if node is a leaf, otherwise 0.
+ * Return: number of leaves
  */
 size_t binary_tree_leaves(const binary_tree_t *tree)
 {
